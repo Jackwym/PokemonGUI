@@ -32,7 +32,8 @@ curScreen:
 7-switch buttons
 8-player attack animation
 9-CPU attack animation
-10-won or lost screen
+10-Pokemon fainted
+11-won or lost screen
 */
 
 
