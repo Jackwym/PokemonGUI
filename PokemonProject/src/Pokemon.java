@@ -171,6 +171,7 @@ public class Pokemon {
 
 
     public void attack(int attackIndex, Pokemon other) {
+        attackDescriptor = "";
         if (PP[attackIndex] == 0) {
             System.out.println("out of PP for this move");
             return;
@@ -201,6 +202,7 @@ public class Pokemon {
 
 
     public void switchPokemon(Pokemon[] hand, int indexOfNew) {
+        attackDescriptor = "";
         Pokemon temp = hand[0];
         hand[0] = hand[indexOfNew];
         hand[indexOfNew] = temp;
@@ -210,8 +212,10 @@ public class Pokemon {
 
 
     public void heal() {
+        attackDescriptor = "";
         HP += 20;
         if (HP >= setHP) HP = setHP;
+        attackDescriptor = ("You healed" + (setHP - HP));
     }
 
 
