@@ -94,6 +94,7 @@ public class MyFrame extends JFrame implements KeyListener, MouseListener, Actio
     JLabel pokemon1Stats;
     JLabel pokemon2Stats;
     JLabel pokemon3Stats;
+    JLabel statement;
 
     JLabel bulbasaurFrontLabelSmall;
     JLabel charmanderFrontLabelSmall;
@@ -221,6 +222,7 @@ public class MyFrame extends JFrame implements KeyListener, MouseListener, Actio
         pokemon1Stats = new JLabel();
         pokemon2Stats = new JLabel();
         pokemon3Stats = new JLabel();
+        statement = new JLabel("<html>Text color: <font color='white'>red</font></html>");
 
         bulbasaurButton = new JButton();
         charmanderButton = new JButton();
@@ -387,6 +389,13 @@ public class MyFrame extends JFrame implements KeyListener, MouseListener, Actio
         pokemon3Stats.setBounds(350, 650, 1050, 250);
         pokemon3Stats.setFont(new Font("DialogInput", Font.PLAIN, 70));
         pokemon3Stats.setVisible(false);
+        statement.setBounds(400, 425, 600, 200);
+        statement.setFont(new Font("DialogInput", Font.PLAIN, 50));
+
+        statement.setBackground(new Color(100, 100, 100));
+        statement.setOpaque(true);
+        statement.setHorizontalAlignment(SwingConstants.CENTER);
+        statement.setVisible(false);
 
         // Button set up
         bulbasaurButton.setIcon(new ImageIcon(bulbasaurFrontScaledSmall));
@@ -570,6 +579,7 @@ public class MyFrame extends JFrame implements KeyListener, MouseListener, Actio
         rivalPokemonLabel.setVisible(false);
 
         // frame start up / adding components
+        this.add(statement);
         this.add(switchOption1Button);
         this.add(switchOption2Button);
         this.add(switchOption3Button);
@@ -836,6 +846,8 @@ public class MyFrame extends JFrame implements KeyListener, MouseListener, Actio
             }
             else if (e.getSource() == healButton) {
                 playerPokemonList[0].heal();
+                CPUPokemon[0].takeCPUTurn(CPUPokemon, playerPokemonList);
+                if (CPUPokemon[0].rand <= 3) curScreen += 4;
             }
             else if (e.getSource() == menuButton) {
                 trainerPokemonLabel.setVisible(false);
@@ -940,6 +952,9 @@ public class MyFrame extends JFrame implements KeyListener, MouseListener, Actio
 
             trainerPokemonLabel.setIcon(getIcon(playerPokemonList[0].name, "back"));
             rivalPokemonLabel.setIcon(getIcon(CPUPokemon[0].name, "front"));
+
+            CPUPokemon[0].takeCPUTurn(CPUPokemon, playerPokemonList);
+            if (CPUPokemon[0].rand <= 3) curScreen += 4;
 
             curScreen -= 2; // going to 5
         }
@@ -1145,9 +1160,48 @@ public class MyFrame extends JFrame implements KeyListener, MouseListener, Actio
                         y++;
                         if (y == 500) {
                             trainerPokemonLabel.setLocation(550, 675);
+                            CPUPokemon[0].takeCPUTurn(CPUPokemon, playerPokemonList);
+                            if (CPUPokemon[0].rand <= 3) curScreen += 4;
                             y = 0;
                             curScreen -= 3;
                         }
+                    }
+                    else if (curScreen == 9) {
+                        trainerLabel.setLocation(120, (int) (675 + (Math.sin(x1 * (Math.PI / 180)) * 3)));
+
+                        trainerPokemonLabel.setLocation(550, (int) (675 + (Math.sin(x2 * (Math.PI / 180)) * 3)));
+                        rivalLabel.setLocation(1000, (int) (300 + (Math.sin(x5 * (Math.PI / 180)) * 3)));
+
+                        attackTopButton.setLocation(50, (int) (50 + (Math.sin(x7 * (Math.PI / 180)) * 3)));
+                        attackMiddleButton.setLocation(50, (int) (225 + (Math.sin(x8 * (Math.PI / 180)) * 3)));
+                        attackBottomButton.setLocation(50, (int) (400 + (Math.sin(x9 * (Math.PI / 180)) * 3)));
+
+                        switchButton.setLocation(1050, (int) (700 + (Math.sin(x7 * (Math.PI / 180)) * 3)));
+                        healButton.setLocation(1050, (int) (800 + (Math.sin(x8 * (Math.PI / 180)) * 3)));
+                        menuButton.setLocation(1050, (int) (900 + (Math.sin(x9 * (Math.PI / 180)) * 3)));
+                        if (y < 250) {
+                            rivalPokemonLabel.setLocation((250 - y) + 550, (int) (.5 * Math.pow(.2 * ((250 - y) - 153), 2) + 208));
+                        }
+                        else {
+                            trainerPokemonLabel.setLocation((int) (550 + (Math.cos(y * (Math.PI / 180)) * 20)), 675);
+                            rivalPokemonLabel.setLocation(y + 325, ((int) (-1 * (250.0 / 225) * y + 950)));
+                            y++;
+                        }
+                        y++;
+                        if (y == 500) {
+                            trainerPokemonLabel.setLocation(550, 675);
+                            if (playerPokemonList[0].hasFainted) {
+                                curScreen = 14;
+                                statement.setText(playerPokemonList[0].name.toUpperCase() + " HAS FAINTED");
+                                statement.setVisible(true);
+                            }
+                            y = 0;
+                            curScreen -= 4;
+                        }
+                    }
+                    if (curScreen == 10) {
+                        System.out.println("pokemon fainted, got to screen 10");
+                        curScreen = 5;
                     }
                     if (x1 == 360) x1 = 0;
                     if (x2 == 360) x2 = 0;
