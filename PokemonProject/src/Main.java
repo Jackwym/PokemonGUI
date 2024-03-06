@@ -20,7 +20,6 @@ public class Main {
     }
 }
 
-
 /*
 curScreen:
 0-start screen
@@ -33,6 +32,7 @@ curScreen:
 7-switch buttons
 8-player attack animation
 9-CPU attack animation
+10-won or lost screen
 */
 
 
@@ -48,5 +48,3 @@ three pokemon switch choice buttons (off if fainted)
 player and rival name
 health bars
 */
-
-
