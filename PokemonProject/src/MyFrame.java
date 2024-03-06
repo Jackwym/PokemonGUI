@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class MyFrame extends JFrame implements KeyListener, MouseListener, ActionListener, WindowListener {
+    boolean gameOver;
     public int curScreen;
     public boolean isPlayersTurn;
     public String name;
@@ -27,6 +28,7 @@ public class MyFrame extends JFrame implements KeyListener, MouseListener, Actio
     Pokemon oddish;
     Pokemon ponyta;
     Pokemon poliwag;
+    int y = 0;
     int x1 = 0;
     int x2 = 40;
     int x3 = 80;
@@ -510,6 +512,7 @@ public class MyFrame extends JFrame implements KeyListener, MouseListener, Actio
         playerPokemonList = new Pokemon[3];
         CPUPokemon = new Pokemon[3];
         isPlayersTurn = true;
+        gameOver = false;
 
         // extra misc labels set up
         startScreenLabel.setBounds(0, -50, 1400, 1100);
@@ -657,10 +660,6 @@ public class MyFrame extends JFrame implements KeyListener, MouseListener, Actio
 
     @Override
     public void mousePressed(MouseEvent e) {
-//        Point pos = MouseInfo.getPointerInfo().getLocation();
-//        int x = e.getX();
-//        int y = e.getY();
-//        System.out.println(x + ", " + y);
         if (curScreen == 0) {
             nameEnter.addKeyListener(this);
             startScreenLabel.setVisible(false);
@@ -766,13 +765,46 @@ public class MyFrame extends JFrame implements KeyListener, MouseListener, Actio
         }
         else if (curScreen == 5) {
             if (e.getSource() == attackTopButton) {
-
+                playerPokemonList[0].attack(0, CPUPokemon[0]);
+                if (CPUPokemon[0].hasFainted && CPUPokemon[1].hasFainted && CPUPokemon[2].hasFainted) gameOver = true;
+                if (CPUPokemon[0].hasFainted) {
+                    if (CPUPokemon[1].hasFainted) {
+                        CPUPokemon[0].switchPokemon(CPUPokemon, 2);
+                    }
+                    else {
+                        CPUPokemon[0].switchPokemon(CPUPokemon, 1);
+                    }
+                }
+                updateScreenFive();
+                curScreen += 3;
             }
             else if (e.getSource() == attackMiddleButton) {
-
+                playerPokemonList[0].attack(1, CPUPokemon[0]);
+                if (CPUPokemon[0].hasFainted && CPUPokemon[1].hasFainted && CPUPokemon[2].hasFainted) gameOver = true;
+                if (CPUPokemon[0].hasFainted) {
+                    if (CPUPokemon[1].hasFainted) {
+                        CPUPokemon[0].switchPokemon(CPUPokemon, 2);
+                    }
+                    else {
+                        CPUPokemon[0].switchPokemon(CPUPokemon, 1);
+                    }
+                }
+                updateScreenFive();
+                curScreen += 3;
             }
             else if (e.getSource() == attackBottomButton) {
-
+                playerPokemonList[0].attack(2, CPUPokemon[0]);
+                if (CPUPokemon[0].hasFainted && CPUPokemon[1].hasFainted && CPUPokemon[2].hasFainted) gameOver = true;
+                if (CPUPokemon[0].hasFainted) {
+                    if (CPUPokemon[1].hasFainted) {
+                        CPUPokemon[0].switchPokemon(CPUPokemon, 2);
+                    }
+                    else {
+                        CPUPokemon[0].switchPokemon(CPUPokemon, 1);
+                    }
+                }
+                updateScreenFive();
+                curScreen += 3;
             }
             else if (e.getSource() == switchButton) {
                 attackTopButton.setVisible(false);
@@ -803,7 +835,7 @@ public class MyFrame extends JFrame implements KeyListener, MouseListener, Actio
                 curScreen += 2;
             }
             else if (e.getSource() == healButton) {
-
+                playerPokemonList[0].heal();
             }
             else if (e.getSource() == menuButton) {
                 trainerPokemonLabel.setVisible(false);
@@ -836,7 +868,6 @@ public class MyFrame extends JFrame implements KeyListener, MouseListener, Actio
                 }
                 pokemon1Stats.setVisible(true);
 
-
                 if (playerPokemonList[1].hasFainted) {
                     pokemon2Stats.setText("STATUS: FAINTED");
                 }
@@ -853,7 +884,6 @@ public class MyFrame extends JFrame implements KeyListener, MouseListener, Actio
                     pokemon3Stats.setText("STATUS: HP-" + (playerPokemonList[2].HP) + " AP-" + (playerPokemonList[2].AP));
                 }
                 pokemon3Stats.setVisible(true);
-
 
                 curScreen++;
             }
@@ -1002,7 +1032,7 @@ public class MyFrame extends JFrame implements KeyListener, MouseListener, Actio
                         if (welcome.isVisible()) welcome.setVisible(false);
 
                     }
-                    if (curScreen == 2) {
+                    else if (curScreen == 2) {
                         bulbasaurButton.setLocation(350, (int) (175 + (Math.sin(x1 * (Math.PI / 180)) * 3)));
                         charmanderButton.setLocation(600, (int) (175 + (Math.sin(x2 * (Math.PI / 180)) * 3)));
                         squirtleButton.setLocation(850, (int) (175 + (Math.sin(x3 * (Math.PI / 180)) * 3)));
@@ -1013,7 +1043,7 @@ public class MyFrame extends JFrame implements KeyListener, MouseListener, Actio
                         ponytaButton.setLocation(600, (int) (675 + (Math.sin(x8 * (Math.PI / 180)) * 3)));
                         poliwagButton.setLocation(850, (int) (675 + (Math.sin(x9 * (Math.PI / 180)) * 3)));
                     }
-                    if (curScreen == 3) {
+                    else if (curScreen == 3) {
                         bulbasaurButton.setEnabled(false);
                         charmanderButton.setEnabled(false);
                         squirtleButton.setEnabled(false);
@@ -1042,7 +1072,7 @@ public class MyFrame extends JFrame implements KeyListener, MouseListener, Actio
                             curScreen++;
                         }
                     }
-                    if (curScreen == 4) {
+                    else if (curScreen == 4) {
                         fadeOut++;
                         coverScreen.setBackground(new Color(fadeOut, fadeOut, fadeOut));
                         if (fadeOut == 255) {
@@ -1061,7 +1091,7 @@ public class MyFrame extends JFrame implements KeyListener, MouseListener, Actio
                             curScreen++; // going to 5
                         }
                     }
-                    if (curScreen == 5) {
+                    else if (curScreen == 5) {
                         trainerLabel.setLocation(120, (int) (675 + (Math.sin(x1 * (Math.PI / 180)) * 3)));
                         trainerPokemonLabel.setLocation(550, (int) (675 + (Math.sin(x2 * (Math.PI / 180)) * 3)));
 
@@ -1076,7 +1106,7 @@ public class MyFrame extends JFrame implements KeyListener, MouseListener, Actio
                         healButton.setLocation(1050, (int) (800 + (Math.sin(x8 * (Math.PI / 180)) * 3)));
                         menuButton.setLocation(1050, (int) (900 + (Math.sin(x9 * (Math.PI / 180)) * 3)));
                     }
-                    if (curScreen == 7) {
+                    else if (curScreen == 7) {
                         trainerLabel.setLocation(120, (int) (675 + (Math.sin(x1 * (Math.PI / 180)) * 3)));
                         trainerPokemonLabel.setLocation(550, (int) (675 + (Math.sin(x2 * (Math.PI / 180)) * 3)));
 
@@ -1090,6 +1120,34 @@ public class MyFrame extends JFrame implements KeyListener, MouseListener, Actio
                         switchButton.setLocation(1050, (int) (700 + (Math.sin(x7 * (Math.PI / 180)) * 3)));
                         healButton.setLocation(1050, (int) (800 + (Math.sin(x8 * (Math.PI / 180)) * 3)));
                         menuButton.setLocation(1050, (int) (900 + (Math.sin(x9 * (Math.PI / 180)) * 3)));
+                    }
+                    else if (curScreen == 8) {
+                        trainerLabel.setLocation(120, (int) (675 + (Math.sin(x1 * (Math.PI / 180)) * 3)));
+
+                        rivalLabel.setLocation(1000, (int) (300 + (Math.sin(x5 * (Math.PI / 180)) * 3)));
+                        rivalPokemonLabel.setLocation(800, (int) (400 + (Math.sin(x6 * (Math.PI / 180)) * 3)));
+
+                        attackTopButton.setLocation(50, (int) (50 + (Math.sin(x7 * (Math.PI / 180)) * 3)));
+                        attackMiddleButton.setLocation(50, (int) (225 + (Math.sin(x8 * (Math.PI / 180)) * 3)));
+                        attackBottomButton.setLocation(50, (int) (400 + (Math.sin(x9 * (Math.PI / 180)) * 3)));
+
+                        switchButton.setLocation(1050, (int) (700 + (Math.sin(x7 * (Math.PI / 180)) * 3)));
+                        healButton.setLocation(1050, (int) (800 + (Math.sin(x8 * (Math.PI / 180)) * 3)));
+                        menuButton.setLocation(1050, (int) (900 + (Math.sin(x9 * (Math.PI / 180)) * 3)));
+                        if (y < 250) {
+                            trainerPokemonLabel.setLocation(y + 550, (int) (.5 * Math.pow(.2 * (y - 153), 2) + 208));
+                        }
+                        else {
+                            rivalPokemonLabel.setLocation((int) (800 + (Math.cos(y * (Math.PI / 180)) * 20)), 400);
+                            trainerPokemonLabel.setLocation((500 - y) + 550, ((int) (-1 * (250.0 / 225) * (500 - y) + 675)));
+                            y++;
+                        }
+                        y++;
+                        if (y == 500) {
+                            trainerPokemonLabel.setLocation(550, 675);
+                            y = 0;
+                            curScreen -= 3;
+                        }
                     }
                     if (x1 == 360) x1 = 0;
                     if (x2 == 360) x2 = 0;
@@ -1147,6 +1205,6 @@ public class MyFrame extends JFrame implements KeyListener, MouseListener, Actio
 
     @Override
     public void windowDeactivated(WindowEvent e) {
-        
+
     }
 }
