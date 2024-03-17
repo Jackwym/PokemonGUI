@@ -224,11 +224,11 @@ public class Pokemon {
         rand = (int) (Math.random() * 6);
         if (rand <= 3) {
             // attack
-            rand = (int) (Math.random() * 3);
-            if (rand == 0) {
+            int randOther = (int) (Math.random() * 3);
+            if (randOther == 0) {
                 hand[0].attack(0, handOther[0]);
             }
-            else if (rand == 1) {
+            else if (randOther == 1) {
                 hand[0].attack(1, handOther[0]);
             }
             else {
@@ -238,11 +238,14 @@ public class Pokemon {
         else if (rand == 4) {
             // switch
             rand = (int) (Math.random() * 2);
-            if (rand == 0) {
+            if (rand == 0 && !hand[1].hasFainted) {
                 hand[0].switchPokemon(hand, 1);
             }
-            else {
+            else if (!hand[2].hasFainted){
                 hand[0].switchPokemon(hand, 2);
+            }
+            else {
+                hand[0].heal();
             }
         }
         else { // rand == 5
