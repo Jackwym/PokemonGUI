@@ -639,10 +639,10 @@ public class MyFrame extends JFrame implements KeyListener, MouseListener, Actio
         rivalPokemonLabel.setVisible(false);
 
         // frame start up / adding components
-        this.add(trainerHealthBar);
-        this.add(trainerHealth);
-        this.add(rivalHealthBar);
-        this.add(rivalHealth);
+//        this.add(trainerHealthBar);
+//        this.add(trainerHealth);
+//        this.add(rivalHealthBar);
+//        this.add(rivalHealth);
         this.add(bigRivalLabel);
         this.add(trainerFrontLabel);
         this.add(statement);
